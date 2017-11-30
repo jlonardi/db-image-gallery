@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import authReducer from './authReducer';
 import galleryReducer from './galleryReducer';
+import carouselReducer from './carouselReducer';
 import { DISCONNECT } from '../actions/tokenActions';
 
 export default function reducers(initialState) {
@@ -10,7 +11,8 @@ export default function reducers(initialState) {
         merge({}, initialState, {
             routing: routerReducer,
             auth: authReducer,
-            gallery: galleryReducer
+            gallery: galleryReducer,
+            carousel: carouselReducer
         })
     );
 

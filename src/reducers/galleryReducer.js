@@ -5,7 +5,9 @@ import {
     ADD_THUMBNAIL_URL,
     FLAG_CORRUPTED,
     LOADING_FILELIST,
-    FILELIST_LOADED
+    FILELIST_LOADED,
+    ADD_IMAGE_URL,
+    LOADING_IMAGE
 } from '../actions/imageActions.js';
 
 const intialState = { loading: false, images: [] };
@@ -32,7 +34,10 @@ export default function galleryReducer(state = intialState, action) {
             return assign({}, state, {
                 images: map(state.images,
                     img => ((img.id === action.id) ? {
-                        ...img, thumbnail: {
+                        ...img,
+                        loaded: true,
+                        loading: false,
+                        thumbnail: {
                             loading: false,
                             loaded: true,
                             corrupted: true
@@ -50,6 +55,21 @@ export default function galleryReducer(state = intialState, action) {
                             url: action.url
                         }
                     } : img)
+                )
+            });
+        case ADD_IMAGE_URL:
+            return assign({}, state, {
+                images: state.images.map(
+                    img => ((img.id === action.id) ?
+                        { ...img, url: action.url, loaded: true, loading: false } :
+                        img
+                    )
+                )
+            });
+        case LOADING_IMAGE:
+            return assign({}, state, {
+                images: map(state.images,
+                    img => ((img.id === action.id) ? { ...img, loading: true } : img)
                 )
             });
         default:

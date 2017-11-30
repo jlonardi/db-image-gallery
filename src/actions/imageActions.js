@@ -1,4 +1,4 @@
-import { filter, assign, includes, map } from 'lodash';
+import { filter, assign, includes, map, find } from 'lodash';
 import Dropbox from 'dropbox';
 import { unauthorize } from './tokenActions';
 import { readJwt } from '../utils/storage';
@@ -71,8 +71,8 @@ export function loadThumbnail(id) {
             format: 'jpeg'
         })
         .then((response) => {
-            const downloadUrl = URL.createObjectURL(response.fileBlob);
-            dispatch(addThumbnailUrl(id, downloadUrl));
+            const url = URL.createObjectURL(response.fileBlob);
+            dispatch(addThumbnailUrl(id, url));
         })
         .catch(() => {
             dispatch(flagCorrupted(id));
@@ -110,5 +110,74 @@ export function loadMetadata() {
             dispatch(unauthorize());
             console.log(error);
         });
+    };
+}
+
+export const DISPLAY_IMAGE = 'DISPLAY_IMAGE';
+export function displayImage(id) {
+    return {
+        type: DISPLAY_IMAGE,
+        id
+    };
+}
+
+export const ADD_IMAGE_URL = 'ADD_IMAGE_URL';
+function addImageUrl(id, url) {
+    return {
+        type: ADD_IMAGE_URL,
+        id,
+        url
+    };
+}
+
+export const LOADING_IMAGE = 'LOADING_IMAGE';
+function loadImage(id) {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_IMAGE,
+            id
+        });
+
+        const jwt = readJwt();
+        const dbx = new Dropbox({ accessToken: jwt });
+        dbx.filesDownload({
+            path: id
+        })
+
+        .then((response) => {
+            const url = URL.createObjectURL(response.fileBlob);
+            dispatch(addImageUrl(id, url));
+        })
+        .catch(() => {
+            dispatch(flagCorrupted(id));
+        });
+    };
+}
+
+export const CLOSE_CAROUSEL = 'CLOSE_CAROUSEL';
+export function closeCarousel() {
+    return {
+        type: CLOSE_CAROUSEL
+    };
+}
+
+export const OPEN_CAROUSEL = 'OPEN_CAROUSEL';
+export function openImage(id) {
+    return (dispatch, getState) => {
+        const { carousel } = getState();
+        const { open } = carousel;
+
+        if (!open) {
+            dispatch({
+                type: OPEN_CAROUSEL
+            });
+        }
+
+        dispatch(displayImage(id));
+
+        const image = find(getState().gallery.images, img => img.id === id);
+        if (!image.loaded && !image.loading) {
+            dispatch(loadImage(id));
+        }
     };
 }

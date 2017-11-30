@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisibilitySensor from 'react-visibility-sensor';
 import { isEmpty, isEqual } from 'lodash';
-import { loadThumbnail } from '../../actions/imageActions';
+import { loadThumbnail, openImage } from '../../actions/imageActions';
 import Placeholder from './placeholder.jsx';
 import styles from './styles/thumbnail.css';
 
@@ -10,6 +10,7 @@ class Thumbnail extends Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -30,6 +31,12 @@ class Thumbnail extends Component {
 
     onChange(isVisible) {
         this.isVisible = isVisible;
+    }
+
+    handleClick() {
+        const { store } = this.context;
+        const { id } = this.props;
+        store.dispatch(openImage(id));
     }
 
     loadThumbnailIfNeeded() {
@@ -90,7 +97,7 @@ class Thumbnail extends Component {
         }
 
         return (
-            <div className={styles.frame}>
+            <div className={styles.frame} onClick={this.handleClick}>
                 {content}
             </div>
         );
