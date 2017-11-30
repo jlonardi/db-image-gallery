@@ -1,5 +1,7 @@
 import { isEmpty } from 'lodash';
 import { load } from '../utils/fetch';
+import { readJwt, writeJwt, clearJwt } from '../utils/storage';
+import { push } from 'react-router-redux';
 
 export const SAVE_TOKEN = 'SAVE_TOKEN';
 function saveToken(jwt) {
@@ -52,7 +54,7 @@ function removeHashFromUrl() {
     }
 }
 
-function readJWT() {
+function getJwt() {
     const linking = localStorage.getItem('application_linking');
     let jwt = '';
 
@@ -66,7 +68,7 @@ function readJWT() {
 
     // if there was no JWT in the url fallback to use the old jwt
     if (isEmpty(jwt)) {
-        jwt = localStorage.getItem('__dropbox_jwt__');
+        jwt = readJwt();
     }
 
     return jwt;
@@ -74,16 +76,30 @@ function readJWT() {
 
 export function initJWT() {
     return (dispatch) => {
-        const jwt = readJWT();
+        const jwt = getJwt();
         localStorage.setItem('application_linking', 'false');
 
         return validateJWT(jwt)
         .then(() => {
-            localStorage.setItem('__dropbox_jwt__', jwt);
+            writeJwt(jwt);
             dispatch(saveToken(jwt));
         })
         .catch(() => {
             dispatch(saveToken(''));
         });
+    };
+}
+
+export const DISCONNECT = 'DISCONNECT';
+export function disconnect() {
+    return (dispatch) => {
+        clearJwt();
+
+        dispatch({
+            type: DISCONNECT
+        });
+
+        // this is needed because the router reducer gets also initialized
+        dispatch(push('/linking'));
     };
 }

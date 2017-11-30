@@ -7,7 +7,13 @@ import { isEmpty } from 'lodash';
 // Higher order component to assure that we have a dropbox JWT-token exists in the store
 export default function requireAuthorization(Component) {
     class AuthorizedComponent extends React.Component {
-        componentWillMount() {
+        constructor(props) {
+            super(props);
+            this.componentDidMount = this.checkAuthorization.bind(this);
+            this.componentDidUpdate = this.checkAuthorization.bind(this);
+        }
+
+        checkAuthorization() {
             if (!this.props.isAuthorized) {
                 // redirect the user to give the app permission to use dropbox
                 this.props.dispatch(push('/linking'));

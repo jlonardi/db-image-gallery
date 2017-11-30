@@ -5,14 +5,15 @@ import { ConnectedRouter } from 'react-router-redux';
 import requireAuthorization from '../components/auth/authorizedComponent.jsx';
 import Gallery from '../components/gallery';
 import Linking from '../components/linking';
+import MainLayout from '../components/layout/mainLayout.jsx';
 
 // define app routes
 const Routes = ({ history }) => (
     <ConnectedRouter history={history}>
-        <div>
+        <MainLayout>
             <Route exact path={'/'} component={requireAuthorization(Gallery)} />
             <Route path={'/linking'} component={Linking} />
-        </div>
+        </MainLayout>
     </ConnectedRouter>
 );
 

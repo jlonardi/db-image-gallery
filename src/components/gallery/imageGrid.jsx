@@ -32,25 +32,40 @@ class ImageGrid extends Component {
         );
     }
 
+    get loadingScreen() {
+        return (
+            <div className={styles.loader}>
+                <i className={`material-icons ${styles.spinner}`}>autorenew</i>
+                <h1 className={styles.title}>
+                    Loading file list
+                </h1>
+            </div>
+        );
+    }
+    get content() {
+        return this.props.loading ? this.loadingScreen : this.thumbnails;
+    }
     render() {
         return (
             <div className={styles.container} onScroll={this.handleScroll}>
-                {this.thumbnails}
+                {this.content}
             </div>
         );
     }
 }
 
 ImageGrid.propTypes = {
+    loading: PropTypes.bool,
     images: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string
     }))
 };
 
 function mapStateToProps({ gallery }) {
-    const { images } = gallery;
+    const { images, loading } = gallery;
     return {
-        images
+        images,
+        loading
     };
 }
 

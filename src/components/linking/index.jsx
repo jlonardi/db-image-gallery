@@ -12,11 +12,11 @@ class Linking extends Component {
     }
     render() {
         return (
-            <div>
+            <div className={styles.container}>
                 <h2 className={styles.title}>
                     Start with linking your Dropbox account
                 </h2>
-                <Button raised color='primary' onClick={this.redirect}>
+                <Button raised onClick={this.redirect}>
                     Connect
                 </Button>
             </div>

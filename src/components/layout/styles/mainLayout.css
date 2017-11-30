@@ -1,0 +1,8 @@
+.title {
+    flex: 1;
+    font-weight: bold;
+}
+
+.toolbar {
+    background-color: #585858;
+}

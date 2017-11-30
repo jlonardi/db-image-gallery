@@ -1,6 +1,7 @@
 import { filter, assign, includes, map } from 'lodash';
 import Dropbox from 'dropbox';
 import { unauthorize } from './tokenActions';
+import { readJwt } from '../utils/storage';
 
 const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'tiff', 'tif', 'gif', 'bmp'];
 
@@ -62,7 +63,7 @@ function flagCorrupted(id) {
 export function loadThumbnail(id) {
     return (dispatch) => {
         dispatch(loadingThumbnail(id));
-        const jwt = localStorage.getItem('__dropbox_jwt__');
+        const jwt = readJwt();
         const dbx = new Dropbox({ accessToken: jwt });
         dbx.filesGetThumbnail({
             path: id,
@@ -87,14 +88,23 @@ function addImages(images) {
     };
 }
 
+export const FILELIST_LOADED = 'FILELIST_LOADED';
+export const LOADING_FILELIST = 'LOADING_FILELIST';
 export function loadMetadata() {
     return (dispatch, getState) => {
+        dispatch({
+            type: LOADING_FILELIST
+        });
+
         const jwt = getState().auth.dropboxToken;
         const dbx = new Dropbox({ accessToken: jwt });
         dbx.filesListFolder({ path: '/Camera Uploads' })
         .then((response) => {
             const images = parseResponse(response);
             dispatch(addImages(images));
+            dispatch({
+                type: FILELIST_LOADED
+            });
         })
         .catch((error) => {
             dispatch(unauthorize());

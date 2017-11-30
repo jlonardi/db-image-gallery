@@ -11,9 +11,7 @@ export function initialize() {
 
     const provider = (
         <Provider store={store} key='provider' >
-            <div>
-                <Routes history={history} />
-            </div>
+            <Routes history={history} />
         </Provider>
     );
 

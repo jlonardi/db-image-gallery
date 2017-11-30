@@ -7,3 +7,8 @@
     line-height: 1.20588em;
     margin-left: -.04em;
 }
+
+.container {
+    text-align: center;
+    padding-top: 20%;
+}
