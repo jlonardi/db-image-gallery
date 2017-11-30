@@ -9,6 +9,10 @@ function saveToken(jwt) {
     };
 }
 
+export function unauthorize() {
+    return saveToken('');
+}
+
 function parseHash(hash) {
     const hashParams = {};
     let e;

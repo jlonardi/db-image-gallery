@@ -17,6 +17,9 @@ export function parseBlob(response) {
 }
 
 export function createURL(blob) {
+    if (!blob) {
+        return Promise.reject();
+    }
     return Promise.resolve(URL.createObjectURL(blob));
 }
 
@@ -30,5 +33,8 @@ export function loadBlob(url, options) {
     return fetch(url, options)
         .then(checkStatus)
         .then(parseBlob)
-        .then(createURL);
+        .then(createURL)
+        .catch(error => {
+            console.log(error);
+        });
 }
