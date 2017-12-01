@@ -60,6 +60,7 @@ $ npm start
 
  - Write tests (!!!)
  - Take less or sass in use for styling and restructure the style files
+ - Video file support
 
 ### Acknowledged issues
  - Dropbox API supports thumbnails only for files that are under 20MB. The photos taken  for example with a 4K resolution camera are so large that their thumbs can't be reitreived.
