@@ -8,11 +8,14 @@ import {
     FILELIST_LOADED,
     ADD_IMAGE_URL,
     LOADING_IMAGE
-} from '../actions/imageActions.js';
+} from '../actions/imageActions';
+import { SORT_GRID } from '../actions/galleryActions';
 
 const intialState = { loading: false, images: [] };
 export default function galleryReducer(state = intialState, action) {
     switch (action.type) {
+        case SORT_GRID:
+            return assign({}, state, { sortDirection: action.sortDirection });
         case LOADING_FILELIST:
             return assign({}, state, { loading: true });
         case FILELIST_LOADED:

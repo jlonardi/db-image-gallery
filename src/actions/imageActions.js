@@ -1,4 +1,4 @@
-import { filter, assign, includes, map, find } from 'lodash';
+import { filter, assign, includes, map } from 'lodash';
 import Dropbox from 'dropbox';
 import { unauthorize } from './tokenActions';
 import { readJwt } from '../utils/storage';

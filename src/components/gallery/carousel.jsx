@@ -29,9 +29,11 @@ class Carousel extends Component {
             }
         });
     }
+
     componentWillUnmount() {
         unbind(this.eventKey);
     }
+
     render() {
         const { loaded, loading, url, current } = this.props;
         const next = () => this.props.next(current);

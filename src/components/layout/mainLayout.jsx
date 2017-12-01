@@ -16,7 +16,7 @@ class MainLayout extends Component {
             <AppBar position='static'>
                 <Toolbar className={styles.toolbar}>
                     <Typography type='title' color='inherit' className={styles.title}>
-                        #TAG
+                        Dropbox gallery demo
                     </Typography>
                     {renderIfAuthorized(
                         <Button color='contrast' onClick={this.props.disconnect}>Disconnect</Button>

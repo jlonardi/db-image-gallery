@@ -31,7 +31,12 @@ class Thumbnail extends Component {
     }
 
     onChange(isVisible) {
+        const becameVisible = !this.isVisible && isVisible;
         this.isVisible = isVisible;
+
+        if (becameVisible) {
+            this.loadThumbnailIfNeeded();
+        }
     }
 
     handleClick() {
