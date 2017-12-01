@@ -2,6 +2,8 @@
 
 Dropbox image gallery is an application that displays the image contet of the Dropbox Camera Uploads folder. The application is ment to be a self education technology test and playgroid. The test subject is how the Dropbox API can be used and what it's limitations are when it is used as an image API.
 
+The running version of the application can be found here https://db-gallery-demo.herokuapp.com.
+
 ### Version
 0.0.1
 
