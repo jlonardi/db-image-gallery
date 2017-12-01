@@ -113,14 +113,6 @@ export function loadMetadata() {
     };
 }
 
-export const DISPLAY_IMAGE = 'DISPLAY_IMAGE';
-export function displayImage(id) {
-    return {
-        type: DISPLAY_IMAGE,
-        id
-    };
-}
-
 export const ADD_IMAGE_URL = 'ADD_IMAGE_URL';
 function addImageUrl(id, url) {
     return {
@@ -131,7 +123,7 @@ function addImageUrl(id, url) {
 }
 
 export const LOADING_IMAGE = 'LOADING_IMAGE';
-function loadImage(id) {
+export function loadImage(id) {
     return (dispatch) => {
         dispatch({
             type: LOADING_IMAGE,
@@ -151,33 +143,5 @@ function loadImage(id) {
         .catch(() => {
             dispatch(flagCorrupted(id));
         });
-    };
-}
-
-export const CLOSE_CAROUSEL = 'CLOSE_CAROUSEL';
-export function closeCarousel() {
-    return {
-        type: CLOSE_CAROUSEL
-    };
-}
-
-export const OPEN_CAROUSEL = 'OPEN_CAROUSEL';
-export function openImage(id) {
-    return (dispatch, getState) => {
-        const { carousel } = getState();
-        const { open } = carousel;
-
-        if (!open) {
-            dispatch({
-                type: OPEN_CAROUSEL
-            });
-        }
-
-        dispatch(displayImage(id));
-
-        const image = find(getState().gallery.images, img => img.id === id);
-        if (!image.loaded && !image.loading) {
-            dispatch(loadImage(id));
-        }
     };
 }

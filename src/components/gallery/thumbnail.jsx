@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisibilitySensor from 'react-visibility-sensor';
 import { isEmpty, isEqual } from 'lodash';
-import { loadThumbnail, openImage } from '../../actions/imageActions';
+import { loadThumbnail } from '../../actions/imageActions';
+import { openImage } from '../../actions/carouselActions';
 import Placeholder from './placeholder.jsx';
 import styles from './styles/thumbnail.css';
 

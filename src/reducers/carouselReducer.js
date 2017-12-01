@@ -3,7 +3,7 @@ import {
     OPEN_CAROUSEL,
     DISPLAY_IMAGE,
     CLOSE_CAROUSEL
-} from '../actions/imageActions.js';
+} from '../actions/carouselActions.js';
 
 const intialState = { open: false };
 export default function galleryReducer(state = intialState, action) {

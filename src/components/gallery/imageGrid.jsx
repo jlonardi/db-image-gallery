@@ -12,7 +12,7 @@ class ImageGrid extends Component {
         this.state = { scrolling: false };
     }
     componentDidMount() {
-        const delay = 500; // ms
+        const delay = 300; // ms
         window.addEventListener('scroll', () => {
             if (!this.state.scrolling) {
                 // notifies the thumbnails about scrolling to prevent image loadings while scrolling

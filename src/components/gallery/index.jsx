@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from './imageGrid.jsx';
 import { connect } from 'react-redux';
-import { loadMetadata, closeCarousel } from '../../actions/imageActions';
+import { loadMetadata } from '../../actions/imageActions';
 import Carousel from './carousel.jsx';
-import Modal from './modal.jsx';
 import styles from './styles/gallery.css';
 
 class Gallery extends Component {
@@ -13,20 +12,16 @@ class Gallery extends Component {
             this.props.loadMetadata();
         }
     }
-    get modal() {
+    get carousel() {
         if (this.props.displayCarousel) {
-            return (
-                <Modal onClose={this.props.closeCarousel}>
-                    <Carousel />
-                </Modal>
-            );
+            return <Carousel />;
         }
         return undefined;
     }
     render() {
         return (
             <div className={styles.container}>
-                {this.modal}
+                {this.carousel}
                 <Grid />
             </div>
         );
@@ -50,8 +45,7 @@ function mapStateToProps({ gallery, carousel }) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadMetadata: () => dispatch(loadMetadata()),
-        closeCarousel: () => dispatch(closeCarousel())
+        loadMetadata: () => dispatch(loadMetadata())
     };
 }
 
