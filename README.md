@@ -1,6 +1,6 @@
 # Drobox image gallery
 
-Dropbox image gallery is an application that displays the image contet of the Dropbox Camera Uploads folder. The application is ment to be a self education technology test and playgroid. The test subject is how the Dropbox API can be used and what it's limitations are when it is used as an image API.
+Dropbox image gallery is an application that displays the content of the Camera Uploads folder. The application is ment to be a self education technology test and playgorund. The test subject is how the Dropbox API can be used and what it's limitations are when it is used as an image API.
 
 The running version of the application can be found here https://db-gallery-demo.herokuapp.com.
 
@@ -63,8 +63,8 @@ $ npm start
  - Video file support
 
 ### Acknowledged issues
- - Dropbox API supports thumbnails only for files that are under 20MB. The photos taken  for example with a 4K resolution camera are so large that their thumbs can't be reitreived.
- - Dropbox API supports (judging by their documentation) loading thumbs 20 pcs chunks. This would fasten up alot the loading of thumbnails but so far the service throws an error when using the API.
+ - Dropbox API supports thumbnails only for files that are under 20MB. The photos taken for example with a 4K resolution camera are so large that their thumbs can't be retreived.
+ - Dropbox API supports (judging by their documentation) loading thumbs in 20 pcs chunks. This would fasten up alot the loading of thumbnails but so far the service throws an error when using the API.
  - Dropbox is tediously slow especially when downloading thumbnails. This is most likely due the fact that Dropbox does not store thumbs and instead creates them when requested.
 
 
