@@ -1,6 +1,6 @@
 import { filter, isEmpty, assign, includes, map } from 'lodash';
 import Dropbox from 'dropbox';
-import { unauthorize } from './tokenActions';
+import { disconnect } from './tokenActions';
 import { readJwt } from '../utils/storage';
 
 const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'tiff', 'tif', 'gif', 'bmp'];
@@ -139,7 +139,7 @@ export function loadMetadata(cursor) {
             });
         })
         .catch((error) => {
-            dispatch(unauthorize());
+            dispatch(disconnect());
             console.log(error);
         });
     };

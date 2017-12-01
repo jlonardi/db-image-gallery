@@ -11,10 +11,6 @@ function saveToken(jwt) {
     };
 }
 
-export function unauthorize() {
-    return saveToken('');
-}
-
 function parseHash(hash) {
     const hashParams = {};
     let e;
@@ -74,22 +70,6 @@ function getJwt() {
     return jwt;
 }
 
-export function initJWT() {
-    return (dispatch) => {
-        const jwt = getJwt();
-        localStorage.setItem('application_linking', 'false');
-
-        return validateJWT(jwt)
-        .then(() => {
-            writeJwt(jwt);
-            dispatch(saveToken(jwt));
-        })
-        .catch(() => {
-            dispatch(saveToken(''));
-        });
-    };
-}
-
 export const DISCONNECT = 'DISCONNECT';
 export function disconnect() {
     return (dispatch) => {
@@ -101,5 +81,21 @@ export function disconnect() {
 
         // this is needed because the router reducer gets also initialized
         dispatch(push('/linking'));
+    };
+}
+
+export function initJWT() {
+    return (dispatch) => {
+        const jwt = getJwt();
+        localStorage.setItem('application_linking', 'false');
+
+        return validateJWT(jwt)
+        .then(() => {
+            writeJwt(jwt);
+            dispatch(saveToken(jwt));
+        })
+        .catch(() => {
+            dispatch(disconnect());
+        });
     };
 }

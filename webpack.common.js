@@ -1,29 +1,8 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
-const argv = require('yargs').argv;
-
-let uiUrl = 'http://localhost';
-if (argv.uiUrl !== undefined) {
-    uiUrl = argv.uiUrl;
-}
-
-let uiPort = 3001;
-if (argv.uiPort !== undefined) {
-    uiPort = argv.uiPort;
-}
-
-let apiUrl = 'http://localhost';
-if (argv.apiUrl !== undefined) {
-    apiUrl = argv.apiUrl;
-}
-
-let apiPort = 3000;
-if (argv.apiPort !== undefined) {
-    apiPort = argv.apiPort;
-}
 
 module.exports = {
     entry: './src/index.js',
@@ -31,26 +10,16 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
-    devtool: 'eval',
-    devServer: {
-        contentBase: './dist',
-        hot: true,
-        historyApiFallback: true,
-        stats: { colors: true }
-    },
+
     plugins: [
         new ExtractTextPlugin('style.css', { allChunks: true }),
         new ProgressBarPlugin(),
+        new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             title: 'Dropbox Image Gallery',
-            uiUrl,
-            uiPort,
-            apiUrl,
-            apiPort,
-            template: 'index.html'
+            template: 'index.html',
+            favicon: 'src/images/favicon.ico'
         }),
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
     ],
     resolve: {
         extensions: ['.js', '.jsx']
