@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import Dropbox from 'dropbox';
 import { load } from '../utils/fetch';
 import { readJwt, writeJwt, clearJwt } from '../utils/storage';
 import { push } from 'react-router-redux';
@@ -29,10 +30,6 @@ function parseHash(hash) {
 // ad hoc validation of the token, if retrievieng of the user info from drobox fail
 // the assumption is made that the jwt is invalid
 function validateJWT(jwt) {
-    if (isEmpty(jwt)) {
-        return Promise.reject();
-    }
-
     return load('https://api.dropboxapi.com/2/users/get_current_account',
         {
             method: 'post',
@@ -94,8 +91,11 @@ export function initJWT() {
             writeJwt(jwt);
             dispatch(saveToken(jwt));
         })
-        .catch(() => {
-            dispatch(disconnect());
+        .catch((error) => {
+            console.log(error);
+            if (error.response.status === 400) {
+                dispatch(disconnect());
+            }
         });
     };
 }
