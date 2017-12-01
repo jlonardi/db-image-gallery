@@ -74,7 +74,7 @@ class Carousel extends Component {
                     {this.closeButton}
                     {this.leftArrow}
                     <Image loading={loading} loaded={loaded} url={url} />
-
+                    {this.rightArrow}
                 </div>
             </Modal>
         );
