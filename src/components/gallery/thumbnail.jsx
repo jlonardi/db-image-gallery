@@ -55,24 +55,19 @@ class Thumbnail extends Component {
     }
 
     get placeholder() {
-        return (
-            <Placeholder>
-                <i className={`material-icons ${styles.icon}`}>crop_original</i>
-            </Placeholder>
-        );
+        return <Placeholder classes={styles.icon} icon='crop_original' />;
     }
 
     get spinner() {
-        return (
-            <Placeholder>
-                <i className={`material-icons ${styles.spinner}`}>autorenew</i>
-            </Placeholder>
-        );
+        return <Placeholder classes={styles.spinner} icon='autorenew' />;
+    }
+
+    get corruptedImage() {
+        return <Placeholder classes={styles.icon} icon='clear' />;
     }
 
     get image() {
         const { url } = this.props;
-
         const imageStyle = {
             backgroundImage: `url(${url})`
         };
@@ -80,14 +75,7 @@ class Thumbnail extends Component {
         return <div className={styles.image} style={imageStyle} />;
     }
 
-    get corruptedImage() {
-        return (
-            <Placeholder>
-                <i className={`material-icons ${styles.icon}`}>clear</i>
-            </Placeholder>
-        );
-    }
-    get thumbnail() {
+    get content() {
         let content = this.placeholder;
 
         if (this.props.corrupted) {
@@ -117,7 +105,7 @@ class Thumbnail extends Component {
         return (
             <VisibilitySensor {...sensorConfig} onChange={this.onChange}>
                 <div className={styles.container}>
-                    {this.thumbnail}
+                    {this.content}
                 </div>
             </VisibilitySensor>
         );

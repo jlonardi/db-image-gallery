@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import Thumbnail from './thumbnail.jsx';
 import styles from './styles/imageGrid.css';
-import { ASC, DESC, NOP, sortGrid } from '../../actions/galleryActions';
+import { ASC, DESC, NOP, setThumbnailSorting } from '../../actions/imageActions';
 
 class ImageGrid extends Component {
     constructor(props) {
@@ -15,10 +15,10 @@ class ImageGrid extends Component {
         this.state = { scrolling: false };
     }
     componentDidMount() {
+        // this is ment to prevent thumbnail loading while scrolling
         const delay = 300; // ms
         window.addEventListener('scroll', () => {
             if (!this.state.scrolling) {
-                // notifies the thumbnails about scrolling to prevent image loadings while scrolling
                 this.setState({ scrolling: true });
             }
             clearTimeout(this.timeout);
@@ -39,7 +39,7 @@ class ImageGrid extends Component {
                     className={styles.textField}
                     value={sortDirection}
                     onChange={(event) =>
-                        this.props.sortGrid(event.target.value)
+                        this.props.setThumbnailSorting(event.target.value)
                     }
                     SelectProps={
                         {
@@ -101,7 +101,7 @@ ImageGrid.propTypes = {
         id: PropTypes.string
     })),
     sortDirection: PropTypes.string,
-    sortGrid: PropTypes.func
+    setThumbnailSorting: PropTypes.func
 };
 
 ImageGrid.defaultProps = {
@@ -109,7 +109,7 @@ ImageGrid.defaultProps = {
 };
 
 function sortImages(images, direction) {
-    if (direction === NOP) {
+    if (direction === NOP || !direction) {
         return images;
     }
 
@@ -129,4 +129,4 @@ function mapStateToProps({ gallery }) {
     };
 }
 
-export default connect(mapStateToProps, { sortGrid })(ImageGrid);
+export default connect(mapStateToProps, { setThumbnailSorting })(ImageGrid);

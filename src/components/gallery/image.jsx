@@ -7,9 +7,7 @@ class Image extends Component {
     get spinner() {
         return (
             <div className={styles.placeholderFrame}>
-                <Placeholder>
-                    <i className={`material-icons ${styles.spinner}`}>autorenew</i>
-                </Placeholder>
+                <Placeholder classes={styles.spinner} icon='autorenew' />
             </div>
         );
     }
@@ -17,9 +15,7 @@ class Image extends Component {
     get placeholder() {
         return (
             <div className={styles.placeholderFrame}>
-                <Placeholder>
-                    <i className={`material-icons ${styles.placeholder}`}>crop_original</i>
-                </Placeholder>
+                <Placeholder classes={styles.placeholder} icon='crop_original' />
             </div>
         );
     }

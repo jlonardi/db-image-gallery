@@ -7,14 +7,14 @@ import {
     LOADING_FILELIST,
     FILELIST_LOADED,
     ADD_IMAGE_URL,
-    LOADING_IMAGE
+    LOADING_IMAGE,
+    SET_SORT_DIRECTION
 } from '../actions/imageActions';
-import { SORT_GRID } from '../actions/galleryActions';
 
 const intialState = { loading: false, images: [] };
 export default function galleryReducer(state = intialState, action) {
     switch (action.type) {
-        case SORT_GRID:
+        case SET_SORT_DIRECTION:
             return assign({}, state, { sortDirection: action.sortDirection });
         case LOADING_FILELIST:
             return assign({}, state, { loading: true });

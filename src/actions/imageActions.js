@@ -1,9 +1,20 @@
-import { filter, assign, includes, map } from 'lodash';
+import { filter, isEmpty, assign, includes, map } from 'lodash';
 import Dropbox from 'dropbox';
 import { unauthorize } from './tokenActions';
 import { readJwt } from '../utils/storage';
 
 const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'tiff', 'tif', 'gif', 'bmp'];
+export const ASC = 'ASC';
+export const DESC = 'DESC';
+export const NOP = 'NOP';
+
+export const SET_SORT_DIRECTION = 'SET_SORT_DIRECTION';
+export function setThumbnailSorting(sortDirection) {
+    return {
+        type: SET_SORT_DIRECTION,
+        sortDirection
+    };
+}
 
 export function getExtension(filename) {
     const re = /(?:\.([^.]+))?$/;
@@ -90,18 +101,39 @@ function addImages(images) {
 
 export const FILELIST_LOADED = 'FILELIST_LOADED';
 export const LOADING_FILELIST = 'LOADING_FILELIST';
-export function loadMetadata() {
+export function loadMetadata(cursor) {
     return (dispatch, getState) => {
-        dispatch({
-            type: LOADING_FILELIST
-        });
+        // dispatching the loading event would cause
+        // the whole gallery to be in loading state
+        if (isEmpty(cursor)) {
+            dispatch({
+                type: LOADING_FILELIST
+            });
+        }
 
         const jwt = getState().auth.dropboxToken;
         const dbx = new Dropbox({ accessToken: jwt });
-        dbx.filesListFolder({ path: '/Camera Uploads' })
-        .then((response) => {
+
+        let promise;
+        if (isEmpty(cursor)) {
+            promise = dbx.filesListFolder({
+                path: '/Camera Uploads'
+            });
+        } else {
+            promise = dbx.filesListFolderContinue({
+                cursor
+            });
+        }
+        promise.then((response) => {
             const images = parseResponse(response);
+
             dispatch(addImages(images));
+
+            if (response.has_more) {
+                dispatch(loadMetadata(response.cursor));
+            }
+
+
             dispatch({
                 type: FILELIST_LOADED
             });
@@ -145,3 +177,4 @@ export function loadImage(id) {
         });
     };
 }
+

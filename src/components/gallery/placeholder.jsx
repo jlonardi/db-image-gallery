@@ -5,11 +5,12 @@ import styles from './styles/placeholder.css';
 export default function Placeholder(props) {
     return (
         <div className={`${styles.placeholder}`}>
-            {props.children}
+            <i className={`material-icons ${props.classes}`}>{props.icon}</i>
         </div>
     );
 }
 
 Placeholder.propTypes = {
-    children: PropTypes.element.isRequired
+    icon: PropTypes.string.isRequired,
+    classes: PropTypes.string
 };

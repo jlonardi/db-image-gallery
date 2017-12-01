@@ -34,29 +34,47 @@ class Carousel extends Component {
         unbind(this.eventKey);
     }
 
+    get closeButton() {
+        return (
+            <div
+                className={`${styles.noselect} ${styles.close}`}
+                onClick={this.props.close}>
+                <i className='material-icons'>clear</i>
+            </div>
+        );
+    }
+
+    get leftArrow() {
+        const prev = () => this.props.prev(this.props.current);
+        return (
+            <div
+                className={`${styles.leftArrow} ${styles.arrow}  ${styles.noselect}`}
+                onClick={prev}>
+                <i className='material-icons'>keyboard_arrow_left</i>
+            </div>
+        );
+    }
+
+    get rightArrow() {
+        const next = () => this.props.next(this.props.current);
+        return (
+            <div
+                className={`${styles.rightArrow} ${styles.arrow} ${styles.noselect}`}
+                onClick={next}>
+                <i className='material-icons'>keyboard_arrow_right</i>
+            </div>
+        );
+    }
+
     render() {
-        const { loaded, loading, url, current } = this.props;
-        const next = () => this.props.next(current);
-        const prev = () => this.props.prev(current);
+        const { loaded, loading, url } = this.props;
         return (
             <Modal>
                 <div className={styles.container}>
-                    <div
-                        className={`${styles.noselect} ${styles.close}`}
-                        onClick={this.props.close}>
-                        <i className='material-icons'>clear</i>
-                    </div>
-                    <div
-                        className={`${styles.leftArrow} ${styles.arrow}  ${styles.noselect}`}
-                        onClick={prev}>
-                        <i className='material-icons'>keyboard_arrow_left</i>
-                    </div>
+                    {this.closeButton}
+                    {this.leftArrow}
                     <Image loading={loading} loaded={loaded} url={url} />
-                    <div
-                        className={`${styles.rightArrow} ${styles.arrow} ${styles.noselect}`}
-                        onClick={next}>
-                        <i className='material-icons'>keyboard_arrow_right</i>
-                    </div>
+
                 </div>
             </Modal>
         );
