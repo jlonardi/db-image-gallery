@@ -56,6 +56,15 @@ Hosting the application:
 $ npm start
 ```
 
+### Test
+
+Each test file is to be placed in a folder called "tests" the same directory as the tested code. Each test filename has to be in the format of "*.test.js"
+
+Running the tests:
+```sh
+$ npm test
+```
+
 ### Todos
 
  - Write tests (!!!)

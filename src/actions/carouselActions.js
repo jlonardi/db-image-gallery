@@ -9,21 +9,21 @@ export function displayImage(id) {
     };
 }
 
-function currentImageIndex(currentId, images) {
+export function currentImageIndex(currentId, images) {
     return indexOf(
         map(images, img => img.id),
         currentId
     );
 }
 
-function previusImageIndex(currentId, images) {
+export function previousImageIndex(currentId, images) {
     const currentIdx = currentImageIndex(currentId, images);
     const firstImage = currentIdx === 0;
     const previousIdx = firstImage ? images.length - 1 : currentIdx - 1;
     return previousIdx;
 }
 
-function nextImageIndex(currentId, images) {
+export function nextImageIndex(currentId, images) {
     const currentIdx = currentImageIndex(currentId, images);
     const lastImage = currentIdx === images.length - 1;
     const next = lastImage ? 0 : currentIdx + 1;
@@ -38,7 +38,7 @@ export function closeCarousel() {
     };
 }
 
-function bufferForward(currentId, images, size) {
+export function bufferForward(currentId, images, size) {
     const buffer = [];
     let current = images[currentImageIndex(currentId, images)];
 
@@ -52,13 +52,13 @@ function bufferForward(currentId, images, size) {
     return buffer;
 }
 
-function bufferBackwards(currentId, images, size) {
+export function bufferBackwards(currentId, images, size) {
     const buffer = [];
     let current = images[currentImageIndex(currentId, images)];
 
     // buffers 5 images backwards
     for (let i = 0; i < size; i++) {
-        const prevIdx = previusImageIndex(current.id, images);
+        const prevIdx = previousImageIndex(current.id, images);
         current = images[prevIdx];
         buffer.push(current.id);
     }
@@ -66,7 +66,7 @@ function bufferBackwards(currentId, images, size) {
     return buffer;
 }
 
-function buildBuffer(id, images) {
+export function buildBuffer(id, images) {
     const buffer = [
         ...bufferForward(id, images, 5),
         ...bufferBackwards(id, images, 5)
@@ -95,6 +95,13 @@ export function openImage(id) {
         const { carousel } = getState();
         const { open } = carousel;
 
+
+        const image = find(getState().gallery.images, img => img.id === id);
+
+        if (!image) {
+            return;
+        }
+
         if (!open) {
             dispatch({
                 type: OPEN_CAROUSEL
@@ -103,7 +110,7 @@ export function openImage(id) {
 
         dispatch(displayImage(id));
 
-        const image = find(getState().gallery.images, img => img.id === id);
+
         if (!image.loaded && !image.loading) {
             dispatch(loadImage(id));
         }
@@ -116,7 +123,7 @@ export function previousImage(current) {
     return (dispatch, getState) => {
         const { images } = getState().gallery;
 
-        const previousIdx = previusImageIndex(current, images);
+        const previousIdx = previousImageIndex(current, images);
 
         dispatch(openImage(images[previousIdx].id));
     };

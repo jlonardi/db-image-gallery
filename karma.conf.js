@@ -15,6 +15,9 @@ module.exports = function conf(config) {
         },
         webpack: {
             devtool: 'eval',
+            resolve: {
+                extensions: ['.js', '.jsx', '.css'],
+            },
             module: {
                 rules: [
                     {
