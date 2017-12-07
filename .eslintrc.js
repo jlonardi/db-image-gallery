@@ -14,8 +14,27 @@ module.exports = {
         'jsx-quotes': ['error', 'prefer-single'],
         'react/jsx-closing-bracket-location': [0, 'props-aligned'],
         'indent': [2, 4, { 'SwitchCase': 1 }],
+        'global-require': 0
     },
     'plugins': [
         'react'
-    ]
+    ],
+    // Custom Globals
+    "globals": { // additional predefined global variables
+        "require": true,
+        "arguments": true
+    },
+    // Environments
+    "env": {
+        "es6": true,
+        "browser": true, // Web Browser (window, document, etc)
+        "jasmine": false, // Jasmine
+        "jquery": false, // jQuery
+        "mocha": true, // Mocha
+        "node": true, // Node.js
+        "prototypejs": false, // Prototype and Scriptaculous
+        "qunit": false, // QUnit
+        "shelljs": false, // ShellJS
+        "worker": false // Web Workers
+    },
 };
